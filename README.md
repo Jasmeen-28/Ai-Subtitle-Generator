@@ -82,11 +82,12 @@ http://127.0.0.1:8000/upload/ (Upload Endpoint)
 ## Supported Languages
 
 CODE 	LANGUAGES
-en	    English
-es	    Spanish
-fr	    French
-de	    German
-hi	    Hindi
+
+en	:    English
+es	:    Spanish
+fr	:   French
+de	:   German
+hi	:  Hindi
 
 
 ## Output Files
