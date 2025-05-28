@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+moviepy
+whisper
+transformers
+googletrans==4.0.0-rc1
+jinja2
