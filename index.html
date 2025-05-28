@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Subtitle Generator - Professional Subtitle & Summary Tool</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        /* Base Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f6ff 0%, #dce7ff 100%);
+            color: #2a2a2a;
+            scroll-behavior: smooth;
+        }
+        a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+        a:hover, a:focus {
+            text-decoration: underline;
+            outline: none;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            z-index: 10000;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            height: 60px;
+        }
+        nav .logo {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: #1d4ed8;
+            user-select: none;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            margin-left: auto;
+            display: flex;
+            gap: 32px;
+        }
+        nav ul li a {
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 10px 0;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        nav ul li a:hover,
+        nav ul li a.active {
+            color: #1e40af;
+        }
+        nav ul li a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #2563eb;
+            border-radius: 2px;
+        }
+
+        /* Main container */
+        main {
+            max-width: 1100px;
+            margin: 80px auto 80px;
+            padding: 0 24px;
+        }
+        section {
+            margin-bottom: 80px;
+        }
+        h1, h2, h3 {
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 16px;
+        }
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #475569;
+        }
+
+        /* Home Section */
+        #home {
+            text-align: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(37, 99, 235, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        #home h1 {
+            font-size: 3rem;
+            color: #1e40af;
+            margin-bottom: 16px;
+        }
+        #home p {
+            max-width: 700px;
+            margin: 0 auto 40px;
+            font-weight: 500;
+        }
+        #home .features {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 32px;
+            margin-top: 40px;
+        }
+        #home .feature {
+            background: #f3f4f6;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.1);
+            padding: 24px;
+            width: 280px;
+            text-align: center;
+            cursor: default;
+            transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s cubic-bezier(0.4,0,0.2,1);
+        }
+        #home .feature:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(37, 99, 235, 0.25);
+        }
+        #home .feature img {
+            max-width: 160px;
+            height: 130px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+            object-fit: cover;
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.25);
+            transition: transform 0.4s ease;
+        }
+        #home .feature:hover img {
+            transform: scale(1.05);
+        }
+        #home .feature h3 {
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+            color: #1e40af;
+        }
+        #home .feature p {
+            font-weight: 500;
+            color: #475569;
+        }
+
+        /* Upload Section */
+        #upload {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.07);
+            padding: 40px 40px 50px;
+            text-align: center;
+        }
+        #upload h2 {
+            margin-bottom: 32px;
+            color: #1e40af;
+            font-size: 2rem;
+        }
+        form#upload-form {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            text-align: left;
+        }
+        #upload-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #334155;
+            font-size: 1rem;
+        }
+        #upload-form input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            cursor: pointer;
+        }
+        #upload-form input[type="file"]:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 8px #2563ebaa;
+        }
+        #upload-form button {
+            margin-top: 20px;
+            width: 100%;
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 28px rgba(37, 99, 235, 0.5);
+            transition: background-color 0.3s ease;
+        }
+        #upload-form button:hover, #upload-form button:focus {
+            background: #1e40af;
+        }
+        #video-error {
+            margin-top: 5px;
+            min-height: 20px;
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+        /* Video Player */
+        #video-player {
+            margin: 32px auto 0;
+            max-width: 640px;
+            width: 100%;
+            border-radius: 18px;
+            box-shadow: 0 12px 32px rgba(59, 130, 246, 0.25);
+            display: block;
+        }
+
+        /* Subtitle Box */
+        #subtitle-box {
+            max-width: 640px;
+            margin: 24px auto 0;
+            min-height: 100px;
+            background: #e0e7ff;
+            border-radius: 16px;
+            padding: 24px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1e40af;
+            line-height: 1.5;
+            box-shadow: inset 0 0 25px rgba(59, 130, 246, 0.3);
+            white-space: pre-wrap;
+            user-select: text;
+            text-align: center;
+        }
+
+        /* Summary Section */
+        #summary {
+            background: white;
+            padding: 40px 40px 50px;
+            border-radius: 16px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.07);
+        }
+        #summary h2 {
+            font-size: 2rem;
+            margin-bottom: 32px;
+            color: #1e40af;
+            text-align: center;
+        }
+        #summary-box {
+            max-width: 640px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            color: #334155;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            border-radius: 12px;
+            background: #f1f5ff;
+            padding: 28px 36px;
+            box-shadow: inset 0 0 30px rgba(59, 130, 246, 0.2);
+            font-weight: 500;
+        }
+
+        /* About Project Section */
+#about {
+    background: linear-gradient(135deg, #f9fafb, #e0e7ff); /* Gradient background */
+    padding: 40px 40px 50px;
+    border-radius: 16px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
+    margin-bottom: 80px;
+    transition: transform 0.3s ease; /* Smooth hover effect */
+}
+
+#about:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+}
+
+#about h2 {
+    font-size: 2.0rem; /* Larger heading */
+    margin-bottom: 32px;
+    color: #1e40af;
+    text-align: center;
+    text-transform: uppercase; /* Uppercase for emphasis */
+    letter-spacing: 1px; /* Spacing between letters */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+#about h3 {
+    font-size: 1.8rem; /* Larger subheading */
+    margin-top: 24px;
+    color: #1e293b;
+    border-bottom: 2px solid #2563eb; /* Underline effect */
+    padding-bottom: 8px; /* Space below the heading */
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+
+#about h3:hover {
+    color: #2563eb; /* Change color on hover */
+}
+
+#about p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #475569;
+    margin-bottom: 16px;
+}
+
+#about ul {
+    list-style-type: none; /* Remove default bullets */
+    padding: 0; /* Remove padding */
+    margin-left: 20px; /* Indent for better alignment */
+}
+
+#about ul li {
+    position: relative; /* Position for icon */
+    padding-left: 30px; /* Space for icon */
+    margin-bottom: 10px; /* Space between items */
+    color: #475569;
+    transition: transform 0.3s ease; /* Smooth hover effect */
+}
+
+#about ul li:hover {
+    transform: translateX(5px); /* Slide effect on hover */
+}
+
+#about ul li::before {
+    content: '✔'; /* Checkmark icon */
+    position: absolute;
+    left: 0; /* Align to the left */
+    color: #2563eb; /* Icon color */
+    font-size: 1.2rem; /* Icon size */
+}
+
+#about .conclusion, #about .future-scope {
+    background: #ffffff; /* White background for contrast */
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease; /* Smooth background transition */
+    position: relative; /* For pseudo-element */
+}
+
+#about .conclusion::after, #about .future-scope::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 12px;
+    background: rgba(37, 99, 235, 0.1); /* Light blue overlay */
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.3s ease; /* Smooth transition */
+}
+
+#about .conclusion:hover::after, #about .future-scope:hover::after {
+    opacity: 1; /* Show overlay on hover */
+}
+
+
+        
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 20px;
+            }
+            nav ul {
+                gap: 20px;
+            }
+            main {
+                margin: 100px 16px 60px;
+                padding: 0 16px;
+            }
+            #home .features {
+                flex-direction: column;
+                gap: 30px;
+                align-items: center;
+            }
+            #home .feature {
+                width: 90%;
+                max-width: 320px;
+            }
+            #summary,
+            #contact,
+            #upload {
+                padding: 30px 24px 40px;
+            }
+            #uploaded-video,
+            #subtitle-box,
+            #summary-box {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav role="navigation" aria-label="Primary Navigation">
+    <div class="logo" tabindex="0">Subtitle Generator</div>
+    <ul>
+        <li><a href="#home" class="nav-link active" tabindex="0">Home</a></li>
+        <li><a href="#upload" class="nav-link" tabindex="0">Upload Video</a></li>
+        <li><a href="#summary" class="nav-link" tabindex="0">Summary</a></li>
+        <li><a href="#about" class="nav-link" tabindex="0">About</a></li>
+    </ul>
+</nav>
+
+<main>
+
+    <!-- HOME SECTION -->
+    <section id="home" tabindex="0" aria-label="Home - Subtitle Generator Project">
+        <h1>Welcome to Subtitle Generator</h1>
+        <p>Your one-stop solution for automatic subtitle generation and video summary — fast, easy, and accurate.</p>
+        <div class="features" aria-label="Project features">
+            <div class="feature" tabindex="0">
+                <img src="https://cdn-icons-png.flaticon.com/512/2169/2169761.png" alt="Easy Upload Icon" />
+                <h3>Simple Upload</h3>
+                <p>Drag and drop or browse to upload your video files effortlessly.</p>
+            </div>
+            <div class="feature" tabindex="0">
+                <img src="https://cdn-icons-png.flaticon.com/512/1098/1098313.png" alt="Automatic Subtitles Icon" />
+                <h3>Automatic Subtitles</h3>
+                <p>Generate highly accurate subtitles automatically using state-of-the-art AI technology.</p>
+            </div>
+            <div class="feature" tabindex="0">
+                <img src="https://cdn-icons-png.flaticon.com/512/1722/1722739.png" alt="Multi-language support icon" />
+                <h3>Multi-language Support</h3>
+                <p>Supports subtitles in multiple languages, making your content truly global-ready.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- UPLOAD SECTION -->
+    <section id="upload" tabindex="0" aria-label="Upload Video Section">
+        <h2>Upload Your Video</h2>
+        <form class="upload-form" id="upload-form" action="/upload/" method="POST" enctype="multipart/form-data">
+            <p id="upload-desc" class="sr-only">Upload video file (mp4) to generate subtitles automatically.</p>
+            <div class="form-group">
+                <label for="file">Select Video File (MP4):</label>
+                <input type="file" id="file" name="file" accept="video/mp4" required aria-required="true" />
+                <div id="video-error" class="form-error" aria-live="assertive"></div>
+            </div>
+            <button type="submit" aria-label="Upload and generate subtitles">Upload & Generate Subtitles</button>
+        </form>
+
+        <!-- Video and subtitles loaded from server if video_url provided -->
+        {% if video_url %}
+        <video id="video-player" controls tabindex="0" aria-label="Uploaded video player" width="560" height="315">
+            <source src="{{ video_url }}" type="video/mp4" />
+            Your browser does not support the video tag.
+            <!-- You can add text tracks here if desired -->
+        </video>
+        <div>
+            <label for="subtitle-language">Choose subtitle language:</label>
+            <select id="subtitle-language" aria-label="Select subtitle language">
+                {% for code, name in languages.items() %}
+                <option value="{{ code }}">{{ name }}</option>
+                {% endfor %}
+            </select>
+            </div>
+            <div id="subtitle-box" aria-live="polite" aria-label="Generated subtitles" class="subtitle-box">Select language to load subtitles.</div>
+            <script>
+                (function() {
+                    const video = document.getElementById('video-player');
+                    const subtitleBox = document.getElementById('subtitle-box');
+                    const select = document.getElementById('subtitle-language');
+                    let subtitles = [];
+            
+                    function parseVTT(data) {
+                        const pattern = /(\d{2}:\d{2}:\d{2}\.\d{3}) --> (\d{2}:\d{2}:\d{2}\.\d{3})\s*([\s\S]*?)(?=\n{2,}|\r?\n\r?\n|$)/g;
+                        const segments = [];
+                        let match;
+                        while ((match = pattern.exec(data)) !== null) {
+                            segments.push({
+                                start: timeToSeconds(match[1]),
+                                end: timeToSeconds(match[2]),
+                                text: match[3].trim().replace(/\r?\n/g, "<br>")
+                            });
+                        }
+                        return segments;
+                    }
+            
+                    function timeToSeconds(timeStr) {
+                        const parts = timeStr.split(':');
+                        const hours = parseInt(parts[0], 10);
+                        const minutes = parseInt(parts[1], 10);
+                        const secParts = parts[2].split('.');
+                        const seconds = parseInt(secParts[0], 10);
+                        const milliseconds = parseInt(secParts[1], 10);
+                        return hours * 3600 + minutes * 60 + seconds + milliseconds / 1000;
+                    }
+            
+                    async function loadSubtitles(locale) {
+                        subtitleBox.innerHTML = "Loading subtitles...";
+                        subtitles = [];
+                        try {
+                            const response = await fetch(`/static/{{ video_id }}_${locale}.vtt`);
+                            if (!response.ok) throw new Error('Network error');
+                            const text = await response.text();
+                            subtitles = parseVTT(text);
+                            subtitleBox.innerHTML = '';
+                        } catch (e) {
+                            subtitleBox.innerHTML = 'Failed to load subtitles.';
+                            console.error(e);
+                        }
+                    }
+            
+                    function updateSubtitle() {
+                        if (subtitles.length === 0) {
+                            subtitleBox.innerHTML = '';
+                            return;
+                        }
+                        const currentTime = video.currentTime;
+                        const segment = subtitles.find(s => currentTime >= s.start && currentTime <= s.end);
+                        subtitleBox.innerHTML = segment ? segment.text : '';
+                    }
+            
+                    select.addEventListener('change', () => {
+                        loadSubtitles(select.value);
+                    });
+            
+                    video.addEventListener('timeupdate', updateSubtitle);
+            
+                    // Load default language subtitles on page load
+                    window.addEventListener('load', () => {
+                        if (select.value) {
+                            loadSubtitles(select.value);
+                        }
+                    });
+                })();
+            </script>
+            
+        {% endif %}
+    </section>
+
+    <!-- SUMMARY SECTION -->
+    <section id="summary" tabindex="0" aria-label="Summary Section">
+        <h2>Video Summary</h2>
+        <article id="summary-box" class="summary-box">{{ summary_text or "Once you upload your video, a concise and meaningful summary will appear here." }}</article>
+    </section>
+
+   
+<!-- ABOUT PROJECT SECTION -->
+<section id="about" tabindex="0" aria-label="About Project Section">
+    <h2>About This Project</h2>
+    <p>
+        The Subtitle Generator is a web-based application designed to simplify the process of generating subtitles for videos. Utilizing advanced AI technology, this tool automatically transcribes audio into text, providing users with accurate subtitles in multiple languages. The user-friendly interface allows for easy video uploads and quick subtitle generation, making it an essential tool for content creators, educators, and anyone looking to enhance their video accessibility.
+    </p>
+    
+    <div class="conclusion">
+        <h3>Conclusion</h3>
+        <p>
+            This project demonstrates the potential of AI in automating tedious tasks such as subtitle generation. By streamlining the process, users can save time and focus on creating engaging content. The Subtitle Generator not only improves accessibility for viewers but also broadens the reach of video content across different languages.
+        </p>
+    </div>
+
+    <div class="future-scope">
+        <h3>Future Scope</h3>
+        <p>
+            Looking ahead, there are several enhancements planned for the Subtitle Generator:
+        </p>
+        <ul>
+            <li>Integration of more languages and dialects to cater to a global audience.</li>
+            <li>Improved accuracy of subtitle generation through machine learning algorithms.</li>
+            <li>Features for editing and customizing subtitles directly within the application.</li>
+            <li>Collaboration tools for teams to work on video projects together.</li>
+        </ul>
+        <p>
+            These improvements aim to make the Subtitle Generator a comprehensive solution for video content creators and enhance user experience.
+        </p>
+    </div>
+</section>
+
+
+</main>
+
+<footer>
+    &copy; 2024 Subtitle Generator. All rights reserved.
+</footer>
+
+<script>
+    // Navigation active link highlighting
+    const navLinks = document.querySelectorAll('nav ul li a');
+    function onScroll() {
+        const fromTop = window.scrollY + 70;
+        navLinks.forEach(link => {
+            const section = document.querySelector(link.hash);
+            if (section && section.offsetTop <= fromTop && (section.offsetTop + section.offsetHeight) > fromTop) {
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            }
+        });
+    }
+    window.addEventListener('scroll', onScroll);
+
+    // Contact form validation & submission simulation
+    (function(){
+        const form = document.getElementById('contact-form');
+        const nameInput = document.getElementById('contact-name');
+        const emailInput = document.getElementById('contact-email');
+        const messageInput = document.getElementById('contact-message');
+        const nameError = document.getElementById('name-error');
+        const emailError = document.getElementById('email-error');
+        const messageError = document.getElementById('message-error');
+        const successMsg = document.getElementById('contact-success');
+
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+        function clearErrors() {
+            nameError.textContent = '';
+            emailError.textContent = '';
+            messageError.textContent = '';
+            successMsg.textContent = '';
+        }
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            clearErrors();
+            let valid = true;
+
+            if (!nameInput.value.trim()) {
+                nameError.textContent = 'Name is required.';
+                valid = false;
+            }
+            if (!emailInput.value.trim()) {
+                emailError.textContent = 'Email is required.';
+                valid = false;
+            } else if (!validateEmail(emailInput.value.trim())) {
+                emailError.textContent = 'Please enter a valid email.';
+                valid = false;
+            }
+            if (!messageInput.value.trim()) {
+                messageError.textContent = 'Message is required.';
+                valid = false;
+            }
+
+            if (!valid) return;
+
+            successMsg.textContent = 'Thanks for reaching out! We\'ll reply shortly.';
+            form.reset();
+        });
+    })();
+</script>
+
+</body>
+</html>
