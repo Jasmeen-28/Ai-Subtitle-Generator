@@ -1,10 +1,11 @@
-# AI Subtitle Generator with Translation & Summarization
 
-An intelligent web application that allows users to upload videos, automatically generates subtitles using OpenAI’s Whisper model, translates them into multiple languages, and summarizes the content using state-of-the-art NLP models.
+# 🎬 AI Subtitle Generator with Translation & Summarization
 
+An intelligent web application that allows users to upload videos, automatically generate accurate subtitles using OpenAI’s Whisper model, translate them into multiple languages, and summarize the content using advanced NLP models.
 
+---
 
-## Tech Stack
+## 🧰 Tech Stack
 
 | Layer        | Technology                                      |
 |--------------|-------------------------------------------------|
@@ -14,139 +15,142 @@ An intelligent web application that allows users to upload videos, automatically
 | Video        | MoviePy                                         |
 | Translation  | Google Translate API                            |
 
+---
 
-##  Features
+## ✨ Features
 
-1. Upload & Transcribe :-  
-    Upload `.mp4` videos and automatically extract audio for transcription.
+- **Upload & Transcribe**  
+  Upload `.mp4` videos and automatically extract audio for transcription.
 
-2. Subtitles with Word Timestamps :-
-    Uses Whisper’s `word_timestamps=True` to ensure precise subtitle timing.
+- **Subtitles with Word Timestamps**  
+  Uses Whisper’s `word_timestamps=True` to ensure precise subtitle timing.
 
-3. Multi-language Support :-
-    Translates subtitles into 5+ languages including Hindi, French, and Spanish.
+- **Multi-language Support**  
+  Subtitles are translated into 5+ languages including Hindi, French, and Spanish.
 
-4. Smart Summarization :-
-    Summarizes the spoken content using `bart-large-cnn-samsum` to create concise summaries.
+- **Smart Summarization**  
+  Spoken content is summarized using the `bart-large-cnn-samsum` model for quick insights.
 
-5. Downloadable VTT Files :-
-    All subtitle files are saved in `.vtt` format and accessible for download.
+- **Downloadable VTT Files**  
+  Subtitle files are saved in `.vtt` format and available for download.
 
-6. Interactive Web UI :-
-    User-friendly frontend with video playback and subtitle selection.
+- **Interactive Web UI**  
+  User-friendly interface for video playback, language selection, and summary display.
 
+---
 
-## Architecture Overview
+## 🏗️ Architecture Overview
 
-1. User uploads video
-2. Audio is extracted using MoviePy
-3. Speech is transcribed using Whisper
-4. Word-level timestamps are used to generate VTT subtitles
-5. Subtitles are optionally translated using Google Translate
-6. Text is summarized using HuggingFace Transformers
-7. Webpage displays video, subtitle download links, and summary
+1. User uploads a video via web interface
+2. Audio is extracted using **MoviePy**
+3. Transcription is performed using **OpenAI Whisper**
+4. Word-level timestamps are used to generate `.vtt` subtitle files
+5. Subtitles are optionally translated using **Google Translate API**
+6. Content is summarized using **HuggingFace Transformers**
+7. Webpage displays video player, subtitles, and summary dynamically
 
+---
 
-##  Project Structure
+## 📁 Project Structure
 
+```
 ├── app.py 
-├── cp_env/
+├── venv/
 ├── templates/
-│ └── index.html 
-├── static/ 
-├── requirements.txt 
+│   └── index.html 
+├── static/
+├── requirements.txt
+```
 
+---
 
-##  Environment Setup
+## ⚙️ Environment Setup
 
-bash
+```bash
 # Create and activate virtual environment
-python3 -m venv cp_env
-.\cp_env\Scripts\activate
+python3 -m venv venv
+source venv/bin/activate
 
-# Install required dependencies
+# Install dependencies
 pip install -r requirements.txt
+```
 
-# Launch the Development Server
+### 🚀 Run the Application
 
+```bash
 uvicorn app:app --reload
-Access the app at:-  http://127.0.0.1:8000/
+```
 
-# Visit in browser:
+### 🔗 Access in Browser
 
-http://127.0.0.1:8000/ (Homepage)
+- Homepage: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+- Upload Endpoint: [http://127.0.0.1:8000/upload/](http://127.0.0.1:8000/upload/)
 
-http://127.0.0.1:8000/upload/ (Upload Endpoint)
+---
 
+## 🌍 Supported Languages
 
-## Supported Languages
+| Code | Language |
+|------|----------|
+| en   | English  |
+| es   | Spanish  |
+| fr   | French   |
+| de   | German   |
+| hi   | Hindi    |
 
-CODE 	LANGUAGES
+---
 
-en	:    English
-es	:    Spanish
-fr	:   French
-de	:   German
-hi	:  Hindi
+## 📤 Output Files
 
+After a successful upload:
 
-## Output Files
+- Video File: `/static/{video_id}.mp4`
+- Subtitles:
+  - English: `/static/{video_id}_en.vtt`
+  - Hindi: `/static/{video_id}_hi.vtt`
+  - Others similarly structured
+- Summary: Displayed beneath the video player
 
-After uploading a video:
+---
 
--> Video: /static/{video_id}.mp4
+## 🤖 AI Models Used
 
--> Subtitles (VTT):
+1. **OpenAI Whisper (Base)**  
+   - High-accuracy speech-to-text transcription  
+   - Word-level timestamps enabled
 
-    English: /static/{video_id}_en.vtt
+2. **BART Large CNN**  
+   - Used for generating concise summaries  
+   - Implemented via HuggingFace Transformers
 
-    Hindi: /static/{video_id}_hi.vtt
+3. **Google Translate API**  
+   - Converts subtitles to selected languages
 
-etc.
+---
 
-Summary: Displayed on the webpage under the video
+## 🧠 Use Cases
 
-## AI Models Used
+- Auto-captioning for educational content  
+- Language learning tools  
+- Accessible media publishing  
+- Summarizing long lectures, podcasts, or interviews
 
-1. Whisper (base) :-
-   * OpenAI’s model for high-accuracy speech-to-text transcription 
-   * Word-level timestamps enabled
+---
 
-2. BART Large CNN  :-
-   * Used for generating concise summaries of the transcribed speech
-   * HuggingFace transformer pipeline
+## 🔮 Future Enhancements
 
-3. Google Translate API
-   * Translates subtitles into the selected target languages
+- Add subtitle preview overlays directly on the video
+- Enable live language switching in the UI
+- Cloud storage support (e.g., AWS S3)
+- Upgrade to Whisper Large for enhanced accuracy
+- Integrate a database to store videos, summaries, and analytics
 
+---
 
-##  Use Cases
+## 📞 Contact
 
-1. Auto-captioning for educational content
-2. Language learning tools
-3. Accessible media publishing
-4. Summarizing long video lectures or podcasts
+**Created by:** Jasmeen Kaur  
+📧 [jasmeeenkaur463@gmail.com](mailto:jasmeeenkaur463@gmail.com)  
+🔗 [LinkedIn: kaurjasmeen00](https://www.linkedin.com/in/kaurjasmeen00/)
 
-
-##  Future Enhancements
-
-1. Add subtitle preview overlays on the video
-2. Enable language selection from the UI
-3. Store processed videos in cloud (e.g., AWS S3)
-4. Upgrade to larger Whisper models for improved accuracy
-5. Database integration for history & analytics
-
-
-##  Contact 
- Created by : Jasmeen Kaur  
- [jasmeeenkaur463@gmail.com](mailto:jasmeeenkaur463@gmail.com)  
- [LinkedIn: kaurjasmeen00](https://www.linkedin.com/in/kaurjasmeen00/)
- 
-
-
-
-
-
-
-
-
+---
