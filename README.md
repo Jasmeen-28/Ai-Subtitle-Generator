@@ -5,6 +5,11 @@ An intelligent web application that allows users to upload videos, automatically
 
 ---
 
+![Screenshot (232)](https://github.com/user-attachments/assets/f7283f83-3e09-4c9c-ae0b-1670f7ad8d0e) 
+![Screenshot (234)](https://github.com/user-attachments/assets/afb415a8-2af0-40a1-857e-7621a46ea7c8)
+
+
+
 ## 🧰 Tech Stack
 
 | Layer        | Technology                                      |
